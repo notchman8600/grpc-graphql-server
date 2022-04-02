@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mongo-db:
+    image: mongo
+    volumes:
+      - db_data:/data/db
+      - /etc/localtime:/etc/localtime:ro
+  redis:
+    image: redis
+    command: redis-server
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+  postgres-db:
+    image: postgres:alpine
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./postgres/initdb:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=sample
+      - TZ=Asia/Tokyo
+  gateway:
+    build:
+      context: ./gateway
+    depends_on:
+      - mongo-db
+      - redis
+      - postgres-db
+    working_dir: /go/src
+    environment:
+      - "REDIS_HOST=redis:6379"
+      - "PORT=8100"
+volumes:
+  db_data:
+  db:
