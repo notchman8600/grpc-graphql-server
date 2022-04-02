@@ -22,17 +22,29 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=sample
       - TZ=Asia/Tokyo
-  gateway:
+  user-api:
     build:
-      context: ./gateway
+      context: ./user
     depends_on:
       - mongo-db
       - redis
       - postgres-db
-    working_dir: /go/src
+    expose:
+      - 8080
+  gateway:
+    build:
+      context: ./gateway
+    depends_on:
+      - user-api
+    # volumes:
+    #   - ./gateway/config.json:/config.json
     environment:
       - "REDIS_HOST=redis:6379"
       - "PORT=8100"
+    ports:
+      - 8082:8082
+      - 8083:8083
+      - 8084:8084
 volumes:
   db_data:
   db:

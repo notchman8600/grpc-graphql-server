@@ -1,15 +1,10 @@
 FROM golang:latest as builder
 WORKDIR /workdir
-COPY . .
+ENV GOPATH=/workdir
+ENV GOBIN=/workdir
+RUN go install github.com/movio/bramble/cmd/bramble@latest
 
-# Set Environment Variable
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
-# Build
-RUN go build -o gateway
-
-# Runtime Container
 FROM gcr.io/distroless/base
-COPY --from=builder /workdir/gateway /gateway
-ENTRYPOINT ["/gateway"]
+COPY --from=builder /workdir/bramble /bramble
+COPY config.json /config.json
+ENTRYPOINT ["/bramble","-conf","/config.json"]

@@ -1,0 +1,5 @@
+{
+    "services": [
+        "http://user-api:8080/query"
+    ]
+}
