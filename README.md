@@ -5,7 +5,10 @@
 ## 作ろうとしているもの
 
 簡単なチャットサーバーを実装します。
-    // "@types/jest": "^27.4.1",
-    // "@types/node": "^16.11.26",
-    // "@types/react": "^17.0.43",
-    // "@types/react-dom": "^17.0.14",
+
+## テスト
+
+curl --request POST \
+    --header 'content-type: application/json' \
+    --url http://localhost:8082/query \
+    --data '{"query":"query{\n  users {\n    id\n    name\n  }\n}"}'
