@@ -14,19 +14,27 @@ import (
 	"notchman.tech/gateway/graph/model"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	rand, _ := rand.Int(rand.Reader, big.NewInt(100))
-	todo := &model.Todo{
-		Text: input.Text,
+	user := &model.User{
+		Name: input.Name,
 		ID:   fmt.Sprintf("T%d", rand),
-		User: &model.User{ID: input.UserID, Name: "user " + input.UserID},
 	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
+	r.users = append(r.users, user)
+	return user, nil
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	return []*model.User{
+		{
+			ID:   "user:1",
+			Name: "Federation Taro",
+		},
+		{
+			ID:   "user:2",
+			Name: "Go Taro",
+		},
+	}, nil
 }
 
 func (r *queryResolver) Service(ctx context.Context) (*model.Service, error) {
@@ -43,10 +51,10 @@ func (r *queryResolver) Service(ctx context.Context) (*model.Service, error) {
 	return &service, nil
 }
 
-// Mutation returns generated.MutationResolver implementation.
+// Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
-// Query returns generated.QueryResolver implementation.
+// Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }

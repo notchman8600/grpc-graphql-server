@@ -2,30 +2,22 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
 type User {
   id: ID!
   name: String!
 }
 
 type Query {
-  todos: [Todo!]!
+  users: [User!]!
   service: Service!
 }
 
-input NewTodo {
-  text: String!
-  userId: String!
+input NewUser {
+  name: String!
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  createUser(input: NewUser!): User!
 }
 
 type Service {
@@ -33,4 +25,3 @@ type Service {
   version: String!
   schema: String!
 }
-
