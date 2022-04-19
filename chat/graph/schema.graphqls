@@ -1,0 +1,28 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Chat {
+  user_id: ID!
+  message: String!
+}
+
+type Query {
+  users: [Chat!]!
+  service: Service!
+}
+
+input NewMessage {
+  message: String!
+  user_id: ID!
+}
+
+type Mutation {
+  sendMessage(input: NewMessage!): Chat!
+}
+
+type Service {
+  name: String!
+  version: String!
+  schema: String!
+}

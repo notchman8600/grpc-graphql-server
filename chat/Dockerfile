@@ -9,9 +9,9 @@ ENV GOARCH=amd64
 # Build
 RUN go generate .
 RUN go get
-RUN go build -o user
+RUN go build -o chat
 
 # Runtime Container
 FROM gcr.io/distroless/base
-COPY --from=builder /workdir/user /user
-ENTRYPOINT ["/user"]
+COPY --from=builder /workdir/chat /chat
+ENTRYPOINT ["/chat"]

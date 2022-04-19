@@ -1,5 +1,6 @@
 {
     "services": [
-        "http://user-api:8080/query"
+        "http://user-api:8080/query",
+        "http://chat-api:8081/query"
     ]
 }
