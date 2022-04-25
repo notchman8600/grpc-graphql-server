@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/vektah/gqlparser/v2/formatter"
-	"notchman.tech/gateway/graph/model"
+	"notchman.tech/user/graph/model"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
